@@ -131,26 +131,26 @@ const ValidationFiltersComponent = ({ filters, onFiltersChange, onClearFilters }
             <Label htmlFor="product-code">{t('validations.product_code')}</Label>
             <Input
               id="product-code"
-              placeholder="Buscar por código de producto/MP"
+              placeholder={t('validations.search_by_code')}
               value={filters.productCode || ''}
               onChange={(e) => updateFilter('productCode', e.target.value)}
             />
           </div>
 
           <div>
-            <Label htmlFor="material-type">Tipo de Material</Label>
+            <Label htmlFor="material-type">{t('validations.material_type')}</Label>
             <Select
               value={filters.materialType || 'all'}
               onValueChange={(value) => updateFilter('materialType', value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Seleccionar tipo de material" />
+                <SelectValue placeholder={t('validations.select_type')} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t('common.all')}</SelectItem>
-                <SelectItem value="materia_prima">Materia Prima</SelectItem>
-                <SelectItem value="producto_terminado">Producto</SelectItem>
-                <SelectItem value="material_empaque">Empaque/Envase</SelectItem>
+                <SelectItem value="materia_prima">{t('material_types.raw_material')}</SelectItem>
+                <SelectItem value="producto_terminado">{t('material_types.finished_product')}</SelectItem>
+                <SelectItem value="material_empaque">{t('material_types.packaging_material')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
