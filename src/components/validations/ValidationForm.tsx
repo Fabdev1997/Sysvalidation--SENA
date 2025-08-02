@@ -158,14 +158,14 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
       <DialogContent className="max-w-2xl bg-popover border border-border">
         <DialogHeader>
           <DialogTitle>
-            {editingValidation ? 'Editar Validación' : 'Nueva Validación'}
+            {editingValidation ? t('common.edit') + ' ' + t('validations.validation_type') : t('validations.new')}
           </DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="validation_code">Código del Documento *</Label>
+              <Label htmlFor="validation_code">{t('validations.validation_code')} *</Label>
               <Input
                 id="validation_code"
                 value={formData.validation_code}
@@ -176,7 +176,7 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="product_code">Código de Producto o Materia Prima</Label>
+              <Label htmlFor="product_code">{t('validations.product_code')}</Label>
               <Input
                 id="product_code"
                 value={formData.product_code}
@@ -186,7 +186,7 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="product_name">Nombre del Producto</Label>
+              <Label htmlFor="product_name">{t('validations.material_name')}</Label>
               <Input
                 id="product_name"
                 value={formData.product_name}
@@ -196,13 +196,13 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="material_type">Tipo de Material</Label>
+              <Label htmlFor="material_type">{t('validations.material_type')}</Label>
               <Select
                 value={formData.material_type}
                 onValueChange={(value) => updateField('material_type', value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar tipo de material" />
+                  <SelectValue placeholder={t('validations.select_type')} />
                 </SelectTrigger>
                 <SelectContent>
                   {getMaterialTypeOptions().map((option) => (
@@ -215,13 +215,13 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="validation_type">Tipo de Validación *</Label>
+              <Label htmlFor="validation_type">{t('validations.validation_type')} *</Label>
               <Select
                 value={formData.validation_type}
                 onValueChange={(value) => updateField('validation_type', value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar tipo" />
+                  <SelectValue placeholder={t('validations.select_type')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="procesos">{t('validations.processes')}</SelectItem>
@@ -233,14 +233,14 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="subcategory">Subcategoría</Label>
+              <Label htmlFor="subcategory">{t('validations.subcategory')}</Label>
               <Select
                 value={formData.subcategory}
                 onValueChange={(value) => updateField('subcategory', value)}
                 disabled={!formData.validation_type}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar subcategoría" />
+                  <SelectValue placeholder={t('validations.select_subcategory')} />
                 </SelectTrigger>
                 <SelectContent>
                   {getSubcategoryOptions(formData.validation_type).map((option) => (
@@ -253,13 +253,13 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="equipment_type">Tipo de Equipo</Label>
+              <Label htmlFor="equipment_type">{t('validations.equipment')}</Label>
               <Select
                 value={formData.equipment_type}
                 onValueChange={(value) => updateField('equipment_type', value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar equipo" />
+                  <SelectValue placeholder={t('validations.select_equipment')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="HPLC">HPLC</SelectItem>
@@ -275,13 +275,13 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="status">Estado *</Label>
+              <Label htmlFor="status">{t('common.status')} *</Label>
               <Select
                 value={formData.status}
                 onValueChange={(value) => updateField('status', value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar estado" />
+                  <SelectValue placeholder={t('validations.select_status')} />
                 </SelectTrigger>
                 <SelectContent>
                   {getStatusOptions().map((option) => (
@@ -294,7 +294,7 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="issue_date">Fecha de Vigencia</Label>
+              <Label htmlFor="issue_date">{t('validations.validity_date')}</Label>
               <Input
                 id="issue_date"
                 type="date"
@@ -304,7 +304,7 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
             </div>
 
             <div>
-              <Label htmlFor="expiry_date">Fecha de Vencimiento</Label>
+              <Label htmlFor="expiry_date">{t('validations.expiry_date')}</Label>
               <Input
                 id="expiry_date"
                 type="date"
@@ -320,7 +320,7 @@ const ValidationForm = ({ isOpen, onClose, onSubmit, editingValidation }: Valida
               {t('common.cancel')}
             </Button>
             <Button type="submit">
-              {editingValidation ? 'Actualizar Validación' : 'Crear Validación'}
+              {editingValidation ? t('common.save') : t('common.add')}
             </Button>
           </div>
         </form>
