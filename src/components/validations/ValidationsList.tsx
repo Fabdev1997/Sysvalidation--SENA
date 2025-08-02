@@ -132,25 +132,45 @@ const ValidationsList = ({
       console.log('Excel data loaded:', jsonData);
 
       // Mapear datos del Excel al formato esperado
-      const mappedData = jsonData.map((row: any, index: number) => ({
-        validation_code: row['Código de Validación'] || row['validation_code'] || `VAL-EXCEL-${index + 1}`,
-        product_code: row['Código de Producto/MP'] || row['product_code'] || `PT-EXCEL-${index + 1}`,
-        product_name: row['Producto/Materia Prima'] || row['product_name'] || `Producto Excel ${index + 1}`,
-        material_type: row['Tipo de Material'] || row['material_type'] || 'producto_terminado',
-        validation_type: row['Tipo de Validación'] || row['validation_type'] || 'metodos_analiticos',
-        subcategory: row['Subcategoría'] || row['subcategory'] || 'valoracion',
-        equipment_type: row['Equipo'] || row['equipment_type'] || 'HPLC',
-        status: row['Estado'] || row['status'] || 'validado',
-        issue_date: formatExcelDate(row['Fecha de Vigencia'] || row['issue_date']) || new Date().toISOString().split('T')[0],
-        expiry_date: formatExcelDate(row['Fecha de Vencimiento'] || row['expiry_date']) || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-      }));
+      const mappedData = jsonData.map((row: any, index: number) => {
+        // Mapear tipo de material desde Excel
+        const excelMaterialType = row['Tipo de Material'] || row['material_type'] || '';
+        let mappedMaterialType = 'producto_terminado'; // valor por defecto
+        
+        // Mapear tipos de material desde Excel a los valores del sistema
+        if (excelMaterialType) {
+          const materialTypeLower = excelMaterialType.toLowerCase();
+          if (materialTypeLower.includes('materia') || materialTypeLower.includes('raw')) {
+            mappedMaterialType = 'materia_prima';
+          } else if (materialTypeLower.includes('empaque') || materialTypeLower.includes('packaging')) {
+            mappedMaterialType = 'material_empaque';
+          } else if (materialTypeLower.includes('terminado') || materialTypeLower.includes('finished')) {
+            mappedMaterialType = 'producto_terminado';
+          } else if (materialTypeLower.includes('granel') || materialTypeLower.includes('bulk')) {
+            mappedMaterialType = 'granel';
+          }
+        }
+
+        return {
+          validation_code: row['Código de Validación'] || row['validation_code'] || `VAL-EXCEL-${index + 1}`,
+          product_code: row['Código de Producto/MP'] || row['product_code'] || `PT-EXCEL-${index + 1}`,
+          product_name: row['Producto/Materia Prima'] || row['product_name'] || `Producto Excel ${index + 1}`,
+          material_type: mappedMaterialType,
+          validation_type: row['Tipo de Validación'] || row['validation_type'] || 'metodos_analiticos',
+          subcategory: row['Subcategoría'] || row['subcategory'] || 'valoracion',
+          equipment_type: row['Equipo'] || row['equipment_type'] || 'HPLC',
+          status: row['Estado'] || row['status'] || 'validado',
+          issue_date: formatExcelDate(row['Fecha de Vigencia'] || row['issue_date']) || new Date().toISOString().split('T')[0],
+          expiry_date: formatExcelDate(row['Fecha de Vencimiento'] || row['expiry_date']) || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        };
+      });
 
       console.log('Mapped data:', mappedData);
       onImportExcel(mappedData);
       
       toast({
         title: "✅ Importación Exitosa",
-        description: `Se procesaron ${mappedData.length} validaciones desde Excel`,
+        description: `Se procesaron ${mappedData.length} validaciones desde Excel. Los tipos de material y fechas han sido mapeados correctamente.`,
       });
     } catch (error) {
       console.error('Error processing Excel:', error);
@@ -182,9 +202,26 @@ const ValidationsList = ({
     
     // Si es una fecha en formato DD/MM/YYYY o similar
     if (typeof dateValue === 'string') {
-      const date = new Date(dateValue);
-      if (!isNaN(date.getTime())) {
-        return date.toISOString().split('T')[0];
+      // Intentar diferentes formatos de fecha
+      const dateFormats = [
+        /^\d{1,2}\/\d{1,2}\/\d{4}$/, // DD/MM/YYYY o MM/DD/YYYY
+        /^\d{4}-\d{1,2}-\d{1,2}$/, // YYYY-MM-DD
+        /^\d{1,2}-\d{1,2}-\d{4}$/, // DD-MM-YYYY
+        /^\d{4}\/\d{1,2}\/\d{1,2}$/, // YYYY/MM/DD
+      ];
+      
+      for (const format of dateFormats) {
+        if (format.test(dateValue)) {
+          const date = new Date(dateValue);
+          if (!isNaN(date.getTime())) {
+            return date.toISOString().split('T')[0];
+          }
+        }
+      }
+      
+      // Si es un objeto Date de Excel
+      if (dateValue instanceof Date) {
+        return dateValue.toISOString().split('T')[0];
       }
     }
     
