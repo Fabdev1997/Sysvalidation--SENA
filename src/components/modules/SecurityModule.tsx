@@ -102,6 +102,10 @@ const SecurityModule = ({ userRole = 'administrador' }: SecurityModuleProps) => 
     return new Date(dateString).toLocaleString('es-ES');
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString('es-ES');
+  };
+
   const updateSecuritySetting = (setting: string, value: any) => {
     if (!canManageSecurity) {
       toast({

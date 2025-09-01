@@ -57,10 +57,10 @@ const ProductsModule = () => {
       code: product.code,
       name: product.name,
       type: product.type,
-      observations: product.observations || '',
-      validation_type: product.validation_type || '',
+      observations: product.description || '',
+      validation_type: '',
       subcategory: product.subcategory || '',
-      expiry_date: product.expiry_date || ''
+      expiry_date: ''
     });
     setShowForm(true);
   };
@@ -99,10 +99,7 @@ const ProductsModule = () => {
               code: formData.code,
               name: formData.name,
               type: formData.type,
-              observations: formData.observations,
-              validation_type: formData.validation_type,
-              subcategory: formData.subcategory,
-              expiry_date: formData.expiry_date,
+              description: formData.observations,
               updated_at: new Date().toISOString()
             }
           : product
@@ -114,12 +111,8 @@ const ProductsModule = () => {
         code: formData.code,
         name: formData.name,
         type: formData.type,
-        observations: formData.observations,
-        validation_type: formData.validation_type,
-        subcategory: formData.subcategory,
-        expiry_date: formData.expiry_date,
+        description: formData.observations,
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
       };
       updatedProducts = [...products, newProduct];
     }
@@ -255,10 +248,7 @@ const ProductsModule = () => {
                     <TableHead>Código</TableHead>
                     <TableHead>Nombre</TableHead>
                     <TableHead>Tipo</TableHead>
-                    <TableHead>{t('products.validation_type')}</TableHead>
-                    <TableHead>{t('products.subcategory')}</TableHead>
-                    <TableHead>{t('products.observations')}</TableHead>
-                    <TableHead>{t('products.expiry_date')}</TableHead>
+                    <TableHead>Descripción</TableHead>
                     <TableHead>Acciones</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -272,10 +262,7 @@ const ProductsModule = () => {
                           {getProductTypeLabel(product.type)}
                         </Badge>
                       </TableCell>
-                      <TableCell>{product.validation_type || 'N/A'}</TableCell>
-                      <TableCell>{product.subcategory || 'N/A'}</TableCell>
-                      <TableCell>{product.observations || 'N/A'}</TableCell>
-                      <TableCell>{product.expiry_date ? new Date(product.expiry_date).toLocaleDateString() : 'N/A'}</TableCell>
+                      <TableCell>{product.description || 'N/A'}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)}>
@@ -346,44 +333,12 @@ const ProductsModule = () => {
               </Select>
             </div>
             <div>
-              <Label htmlFor="validation_type">{t('products.validation_type')}</Label>
-              <Select value={formData.validation_type} onValueChange={(value) => setFormData({ ...formData, validation_type: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar tipo de validación" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="procesos">Procesos</SelectItem>
-                  <SelectItem value="metodos_analiticos">Métodos Analíticos</SelectItem>
-                  <SelectItem value="limpieza">Limpieza</SelectItem>
-                  <SelectItem value="sistemas_computarizados">Sistemas Computarizados</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="subcategory">{t('products.subcategory')}</Label>
-              <Input
-                id="subcategory"
-                value={formData.subcategory}
-                onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
-                placeholder="Subcategoría"
-              />
-            </div>
-            <div>
-              <Label htmlFor="observations">{t('products.observations')}</Label>
+              <Label htmlFor="observations">Descripción</Label>
               <Input
                 id="observations"
                 value={formData.observations}
                 onChange={(e) => setFormData({ ...formData, observations: e.target.value })}
-                placeholder={t('products.product_observations')}
-              />
-            </div>
-            <div>
-              <Label htmlFor="expiry_date">{t('products.expiry_date')}</Label>
-              <Input
-                id="expiry_date"
-                type="date"
-                value={formData.expiry_date}
-                onChange={(e) => setFormData({ ...formData, expiry_date: e.target.value })}
+                placeholder="Descripción del producto"
               />
             </div>
             <div className="flex flex-col sm:flex-row gap-2 justify-end">

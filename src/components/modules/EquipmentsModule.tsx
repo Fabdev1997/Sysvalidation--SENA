@@ -255,11 +255,8 @@ const EquipmentsModule = () => {
                       <TableCell>{new Date(equipment.created_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          <Button variant="outline" size="sm">
-                            <Edit 
-                              className="h-4 w-4" 
-                              onClick={() => handleEditEquipment(equipment)}
-                            />
+                          <Button variant="outline" size="sm" onClick={() => handleEditEquipment(equipment)}>
+                            <Edit className="h-4 w-4" />
                           </Button>
                           <Button 
                             variant="outline" 
