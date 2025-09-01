@@ -6,7 +6,6 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Upload, Download, Trash2, FileText, Eye, Printer } from 'lucide-react';
 import { ValidationFile } from '@/types/validation';
 import { useToast } from '@/hooks/use-toast';
-import { formatDate } from '@/utils/dateUtils';
 
 interface ValidationFilesProps {
   validationId: string;

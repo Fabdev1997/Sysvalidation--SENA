@@ -4,7 +4,6 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Validation } from '@/types/validation';
-import { getDaysUntilExpiry } from '@/utils/dateUtils';
 
 interface AnalyticsChartsProps {
   validations: Validation[];

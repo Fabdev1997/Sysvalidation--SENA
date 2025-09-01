@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { ValidationType, ValidationStatus, Validation, calculateExpiryDate, ProductType } from '@/types/validation';
+import { ValidationType, ValidationStatus, Validation, ProductType } from '@/types/validation';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ValidationFormProps {

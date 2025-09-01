@@ -156,3 +156,14 @@ export const calculateExpiryDate = (issueDate: string, validationType: Validatio
   expiry.setFullYear(expiry.getFullYear() + years);
   return expiry.toISOString().split('T')[0];
 };
+
+export const formatDate = (dateString: string): string => {
+  return new Date(dateString).toLocaleDateString('es-ES');
+};
+
+export const getDaysUntilExpiry = (expiryDate: string): number => {
+  const today = new Date();
+  const expiry = new Date(expiryDate);
+  const diffTime = expiry.getTime() - today.getTime();
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+};
